@@ -466,8 +466,8 @@ func (c *Context) IntersectScissor(x, y, w, h float32) {
 	ex := state.scissor.extent[0]
 	ey := state.scissor.extent[1]
 
-	teX := ex * absF(pXform[0]) * ey * absF(pXform[2])
-	teY := ex * absF(pXform[1]) * ey * absF(pXform[3])
+	teX := ex * absF(pXform[0]) + ey * absF(pXform[2])
+	teY := ex * absF(pXform[1]) + ey * absF(pXform[3])
 	rect := intersectRects(pXform[4]-teX, pXform[5]-teY, teX*2, teY*2, x, y, w, h)
 	c.Scissor(rect[0], rect[1], rect[2], rect[3])
 }
