@@ -124,6 +124,7 @@ type Context struct {
 	textTriCount   int
 }
 
+
 // Delete is called when tearing down NanoVGo context
 func (c *Context) Delete() {
 

@@ -12,6 +12,38 @@ const (
 	nvgMaxStates        = 32
 )
 
+type nvgBlendFactor int
+
+const (
+	nvgZERO = 1<<0
+	nvgONE = 1<<1
+	nvgSRC_COLOR = 1<<2
+	nvgONE_MINUS_SRC_COLOR = 1<<3
+	nvgDST_COLOR = 1<<4
+	nvgONE_MINUS_DST_COLOR = 1<<5
+	nvgSRC_ALPHA = 1<<6
+	nvgONE_MINUS_SRC_ALPHA = 1<<7
+	nvgDST_ALPHA = 1<<8
+	nvgONE_MINUS_DST_ALPHA = 1<<9
+	nvgSRC_ALPHA_SATURATE = 1<<10
+)
+
+type nvgCompositeOperation int
+
+const (
+	nvgSOURCE_OVER nvgCompositeOperation = iota
+	nvgSOURCE_IN
+	nvgSOURCE_OUT
+	nvgATOP
+	nvgDESTINATION_OVER
+	nvgDESTINATION_IN
+	nvgDESTINATION_OUT
+	nvgDESTINATION_ATOP
+	nvgLIGHTER
+	nvgCOPY
+	nvgXOR
+)
+
 type nvgCommands int
 
 const (

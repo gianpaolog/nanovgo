@@ -56,22 +56,111 @@ type nvgScissor struct {
 	extent [2]float32
 }
 
-type nvgState struct {
-	fill, stroke  Paint
-	strokeWidth   float32
-	miterLimit    float32
-	lineJoin      LineCap
-	lineCap       LineCap
-	alpha         float32
-	xform         TransformMatrix
-	scissor       nvgScissor
-	fontSize      float32
-	letterSpacing float32
-	lineHeight    float32
-	fontBlur      float32
-	textAlign     Align
-	fontID        int
+
+type nvgCompositeOperationState struct {
+	srcRGB nvgBlendFactor
+	dstRGB nvgBlendFactor
+	srcAlpha nvgBlendFactor
+	dstAlpha nvgBlendFactor
 }
+
+func NewCompositeOperationState(op nvgCompositeOperation) *nvgCompositeOperationState {
+	var sfactor, dfactor nvgBlendFactor
+
+	switch op {
+	case nvgSOURCE_OVER:
+		{
+			sfactor = nvgONE
+			dfactor = nvgONE_MINUS_SRC_ALPHA
+		}
+	case nvgSOURCE_IN:
+		{
+			sfactor = nvgDST_ALPHA
+			dfactor = nvgZERO
+		}
+	case nvgSOURCE_OUT:
+		{
+			sfactor = nvgONE_MINUS_DST_ALPHA
+			dfactor = nvgZERO
+		}
+	case nvgATOP:
+		{
+			sfactor = nvgDST_ALPHA
+			dfactor = nvgONE_MINUS_SRC_ALPHA
+		}
+	case nvgDESTINATION_OVER:
+		{
+			sfactor = nvgONE_MINUS_DST_ALPHA
+			dfactor = nvgONE
+		}
+	case nvgDESTINATION_IN:
+		{
+			sfactor = nvgZERO
+			dfactor = nvgSRC_ALPHA
+		}
+	case nvgDESTINATION_OUT:
+		{
+			sfactor = nvgZERO
+			dfactor = nvgONE_MINUS_SRC_ALPHA
+		}
+	case nvgDESTINATION_ATOP:
+		{
+			sfactor = nvgONE_MINUS_DST_ALPHA
+			dfactor = nvgSRC_ALPHA
+		}
+	case nvgLIGHTER:
+		{
+			sfactor = nvgONE
+			dfactor = nvgONE
+		}
+	case nvgCOPY:
+		{
+			sfactor = nvgONE
+			dfactor = nvgZERO
+		}
+	case nvgXOR:
+		{
+			sfactor = nvgONE_MINUS_DST_ALPHA
+			dfactor = nvgONE_MINUS_SRC_ALPHA
+		}
+	default:
+		{
+		sfactor = nvgONE
+		dfactor = nvgZERO
+		}
+	}
+
+	state :=  &nvgCompositeOperationState{
+		srcRGB:sfactor,
+		dstRGB:dfactor,
+		srcAlpha:sfactor,
+		dstAlpha:dfactor,
+	}
+
+	return state
+}
+
+
+
+type nvgState struct {
+	compositeOperation  nvgCompositeOperationState
+	shapeAntiAlias      int
+	fill, stroke        Paint
+	strokeWidth         float32
+	miterLimit          float32
+	lineJoin            LineCap
+	lineCap             LineCap
+	alpha               float32
+	xform               TransformMatrix
+	scissor             nvgScissor
+	fontSize            float32
+	letterSpacing       float32
+	lineHeight          float32
+	fontBlur            float32
+	textAlign           Align
+	fontID              int
+}
+
 
 func (s *nvgState) reset() {
 	s.fill.setPaintColor(RGBA(255, 255, 255, 255))
