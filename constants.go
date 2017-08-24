@@ -79,6 +79,8 @@ const (
 	ImageFlippy ImageFlags = 1 << 3
 	// ImagePreMultiplied specifies image data has premultiplied alpha.
 	ImagePreMultiplied ImageFlags = 1 << 4
+	// Image interpolation is Nearest instead Linear
+	ImageNearest = 1 << 5
 )
 
 // Winding is used for changing filling strategy
