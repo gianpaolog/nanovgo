@@ -370,17 +370,17 @@ func (c *Context) SetFillPaint(paint Paint) {
 
 // CreateImage creates image by loading it from the disk from specified file name.
 // Returns handle to the image.
-func (c *Context) CreateImage(filePath string, flags ImageFlags) int {
+func (c *Context) CreateImage(filePath string, flags ImageFlags) (handle int, x image.Image) {
 	file, err := os.Open(filePath)
 	defer file.Close()
 	if err != nil {
-		return 0
+		return 0, nil
 	}
 	img, _, err := image.Decode(file)
 	if err != nil {
-		return 0
+		return 0, nil
 	}
-	return c.CreateImageFromGoImage(flags, img)
+	return c.CreateImageFromGoImage(flags, img), img
 }
 
 // CreateImageFromMemory creates image by loading it from the specified chunk of memory.

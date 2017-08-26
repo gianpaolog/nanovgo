@@ -94,7 +94,8 @@ func LoadDemo(ctx *nanovgo.Context) *demo.DemoData {
 	d := &demo.DemoData{}
 	for i := 0; i < 12; i++ {
 		path := fmt.Sprintf("images/image%d.jpg", i+1)
-		d.Images = append(d.Images, ctx.CreateImage(path, 0))
+		handle, _ := ctx.CreateImage(path, 0)
+		d.Images = append(d.Images, handle)
 		if d.Images[i] == 0 {
 			log.Fatalf("Could not load %s", path)
 		}
